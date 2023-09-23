@@ -20,6 +20,7 @@ export default function App() {
                     <DynamicHookCounter/>
                     <HooksCounter/>
                     <VariableCounter/>
+                    <VariableCounter dynamic={true}/>
                     {/* <Counter /> */}
                 </div>
             </div>

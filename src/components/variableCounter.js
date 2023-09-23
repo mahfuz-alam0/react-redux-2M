@@ -1,14 +1,15 @@
 import { connect } from 'react-redux';
 
 import { decrementAction, incrementAction } from "../redux/counter/actions";
+import { DynamycDecrementAction, DynamycIncrementAction } from '../redux/DynamicCounter/actions';
 
 
-const variableCounter = ({ count, increment, decrement }) => {
+const variableCounter = ({ count, increment, decrement, ownProps }) => {
 
     return (
         <div className="p-4 h-auto flex flex-col items-center justify-center space-y-5 bg-white rounded shadow">
             <div className="text-2xl font-semibold">
-                {count}
+                DV {count}
             </div>
             <div className="flex space-x-3">
                 <button
@@ -28,17 +29,19 @@ const variableCounter = ({ count, increment, decrement }) => {
     );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
     return {
-        count: state.value,
+        count: ownProps.dynamic
+            ? state.dynamicCounter.value
+            : state.counter.count,
     };
 };
 
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        increment: (value) => dispatch(incrementAction(value)),
-        decrement: (value) => dispatch(decrementAction(value)),
+        increment: ownProps.dynamic ? () => dispatch(DynamycIncrementAction(5)) : () => dispatch(incrementAction()),
+        decrement: ownProps.dynamic ? () => dispatch(DynamycDecrementAction(5)) : () => dispatch(decrementAction()),
     };
 };
 
